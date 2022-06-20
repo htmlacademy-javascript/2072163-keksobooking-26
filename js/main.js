@@ -17,6 +17,7 @@ const getRandomInteger = function (min, max) {
 };
 getRandomInteger(1, 10);
 
+const numberPhoto = getRandomInteger(1, 10)
 
 const getRandomFloat = function (min, max, signPoint) {
   if (!validateArgs(min, max)) { return ERROR_MESSAGE; }
@@ -31,9 +32,9 @@ const CHECKTIMES = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner',];
 const DESCRIPTIONS = ['Описание 1', 'Описание 2', 'Описание 3', 'Описание 4',];
 const PHOTOS = [
-  https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg,
-  https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg,
-  https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg,
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 const lat = getRandomFloat(35.65, 35.7, 5);
 const lng = getRandomFloat(139.7, 139.8, 5);
@@ -46,8 +47,8 @@ const getRandomArrayElement = function (arr) {
   return arr[element]
 }
 //возвращает адрес изображения
-const getAvatar = function (sn) {
-  return sn < NUMBER_OF_OFFERS ? `0${sn}` : `${sn}`
+const getAvatar = function (numberPhotoAvatar) {
+  return numberPhotoAvatar < NUMBER_OF_OFFERS ? `0${numberPhotoAvatar}` : `${numberPhotoAvatar}`
 }
 // возвращает массив строк
 const getStringArray = function (arr) {
@@ -68,7 +69,7 @@ const getStringArray = function (arr) {
 const createAd = function () {
   return {
     author: {
-      avatar: getAvatar(),
+      avatar: getAvatar(numberPhoto),
     },
     offer: {
       title: getRandomArrayElement(TITLES),
