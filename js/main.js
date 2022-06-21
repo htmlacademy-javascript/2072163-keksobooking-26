@@ -1,34 +1,88 @@
+//сообщение об ошибке
 const ERROR_MESSAGE = 'Задан неверный параметр! Укажите другие данные.';
 
+//проверка переданных параметров
 const validateArgs = function (min, max) {
   return !(typeof min !== 'number' || typeof max !== 'number' || min < 0 || max < 0);
 };
 
+//деструктиризация значений, если переданные значения max меньше min
+const makeValid = function (min, max) {
+  return max < min ? [min, max] = [max, min] : [min, max];
+};
+
+//функция возвращающая случайное значение
 const getRandomNumber = function (min, max) {
   return Math.random() * (max - min + 1) + min;
 };
 
-const makeValid = function (min, max) {
-  return max < min ? [min, max] = [max, min] : [min, max];
-};
+//функция возвращающая случайное целое значение в заданном диапазоне
 const getRandomInteger = function (min, max) {
   if (!validateArgs(min, max)) { return ERROR_MESSAGE; }
   return Math.floor(getRandomNumber(...makeValid(min, max)));
 };
-getRandomInteger(1, 10);
 
-const numberPhoto = getRandomInteger(1, 10)
-
+//функция возвращающая случайное значение в заданном диапазоне с плавающей точкой
 const getRandomFloat = function (min, max, signPoint) {
   if (!validateArgs(min, max)) { return ERROR_MESSAGE; }
   return getRandomNumber(...makeValid(min, max)).toFixed(signPoint);
 };
-getRandomFloat(1, 2, 3);
 
+//функция возвращающая случайный элемент из массива
+const getRandomElementArray = function (arr) {
+  let key = getRandomInteger(0, arr.length - 1);
+  return arr[key];
+};
 
-const TITLES = ['Заголовок 1', 'Заголовок 2', 'заголвок 3', 'Заголовок 4'];
+//Функция возвращает массив случайной длины
+const getArrayRandomLength = function (arr) {
+  let rundomIndex = getRandomInteger(0, arr.length - 1);
+  let copyArr = arr.slice();
+  let result = [];
+
+  for (let i = rundomIndex; i >= 0; i--) {
+    let indexOfElement = getRandomInteger(0, copyArr.length - 1);
+    let splicedElement = copyArr.splice(indexOfElement, 1);
+    result.push(splicedElement[0]);
+  }
+  return result;
+}
+
+//Функция возвращает строку с неповторяющимся значением
+let PhotoId = 0;
+const getAvatarNumber = function (numberPhoto) {
+
+  for (let i = 1; i <= numberPhoto; i++) {
+    PhotoId += 1;
+    if (PhotoId < 10) {
+      return `img/avatars/user0${PhotoId}.png`;
+    }
+    return `img/avatars/user${PhotoId}.png`;
+  }
+};
+
+//количество изображений
+const MAX_PICTURE = 10;
+
+//количество объявлений
+const NUMBER_AD = 10;
+
+//географические координаты
+const locationLat = {
+  min: 35.65000,
+  max: 35.70000,
+  signPoint: 5,
+}
+
+//географические координаты
+const locationLng = {
+  min: 139.70000,
+  max: 139.80000,
+  signPoint: 5,
+}
+const TITLES = ['Заголовок 1', 'Заголовок 2', 'Заголовок 3', 'Заголовок 4'];
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const CHECKTIMES = ['12:00', '13:00', '14:00'];
+const CHECK_TIMES = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner',];
 const DESCRIPTIONS = ['Описание 1', 'Описание 2', 'Описание 3', 'Описание 4',];
 const PHOTOS = [
@@ -36,61 +90,34 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
-const lat = getRandomFloat(35.65, 35.7, 5);
-const lng = getRandomFloat(139.7, 139.8, 5);
-const NUMBER_OF_OFFERS = 10;
 
 
-//возвращает случайный элемент массива
-const getRandomArrayElement = function (arr) {
-  const element = Math.floor(Math.random() * arr.length);
-  return arr[element]
-}
-//возвращает адрес изображения
-const getAvatar = function (numberPhotoAvatar) {
-  return numberPhotoAvatar < NUMBER_OF_OFFERS ? `0${numberPhotoAvatar}` : `${numberPhotoAvatar}`
-}
-// возвращает массив строк
-const getStringArray = function (arr) {
-  const count = getRandomInteger(1, arr.length);
-  const copyArr = arr.slice();
-  const result = [];
 
-  for (let i = count; i > 0; i--) {
-    const indexOfElement = getRandomInteger(0, copyArr.length - 1);
-    const splicedElement = copyArr.splice(indexOfElement, 1);
-    result.push(splicedElement[0]);
-  }
-
-  return result;
-}
-
-// генерируем одно объявление
+//функция возвращающая один объект
 const createAd = function () {
   return {
     author: {
-      avatar: getAvatar(numberPhoto),
+      avatar: getAvatarNumber(MAX_PICTURE),
     },
     offer: {
-      title: getRandomArrayElement(TITLES),
-      address: `${lat}, ${lng}`,
-      price: getRandomInteger(10, 100),
-      type: getRandomArrayElement(TYPES),
-      rooms: getRandomInteger(1, 20),
-      guests: getRandomInteger(1, 10),
-      checkin: getRandomArrayElement(CHECKTIMES),
-      checkout: getRandomArrayElement(CHECKTIMES),
-      features: getStringArray(FEATURES),
-      description: getRandomArrayElement(DESCRIPTIONS),
-      photos: getStringArray(PHOTOS),
-    }
+      title: getRandomElementArray(TITLES),
+      address: `${getRandomFloat(locationLat.min, locationLat.max, locationLat.signPoint)}, ${getRandomFloat(locationLng.min, locationLng.max, locationLng.signPoint)}`,
+      price: getRandomInteger(42, 424242),
+      type: getRandomElementArray(TYPES),
+      rooms: getRandomInteger(1, 42),
+      guests: getRandomInteger(1, 42),
+      checkin: getRandomElementArray(CHECK_TIMES),
+      checkout: getRandomElementArray(CHECK_TIMES),
+      features: getArrayRandomLength(FEATURES),
+      description: getRandomElementArray(DESCRIPTIONS),
+      photos: getArrayRandomLength(PHOTOS),
+    },
     location: {
-      lat: lat,
-      lng: lng,
-    }
+      lat: getRandomFloat(locationLat.min, locationLat.max, locationLat.signPoint),
+      lng: getRandomFloat(locationLng.min, locationLng.max, locationLng.signPoint),
+    },
+  };
+};
 
-  }
-}
-
-//генерация 10-ти случайных объявлений
-const offerArray = new Array(NUMBER_OF_OFFERS).fill(null).map(() => createAd());
+//функция возвращающая n объектов
+const MultiCreateAd = Array.from({ length: NUMBER_AD }, createAd);
