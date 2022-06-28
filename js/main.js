@@ -8,7 +8,8 @@ const validateArgs = function (min, max) {
 
 //деструктиризация значений, если переданные значения max меньше min
 const makeValid = function (min, max) {
-  return max < min ? [min, max] = [max, min] : [min, max];
+  const valid = max < min ? [min, max] = [max, min] : [min, max];
+  return valid;
 };
 
 //функция возвращающая случайное значение
@@ -30,23 +31,23 @@ const getRandomFloat = function (min, max, signPoint) {
 
 //функция возвращающая случайный элемент из массива
 const getRandomElementArray = function (arr) {
-  let key = getRandomInteger(0, arr.length - 1);
-  return arr[key];
+  const keyIndex = getRandomInteger(0, arr.length - 1);
+  return arr[keyIndex];
 };
 
 //Функция возвращает массив случайной длины
 const getArrayRandomLength = function (arr) {
-  let rundomIndex = getRandomInteger(0, arr.length - 1);
-  let copyArr = arr.slice();
-  let result = [];
+  const rundomIndex = getRandomInteger(0, arr.length - 1);
+  const copyArr = arr.slice();
+  const result = [];
 
   for (let i = rundomIndex; i >= 0; i--) {
-    let indexOfElement = getRandomInteger(0, copyArr.length - 1);
-    let splicedElement = copyArr.splice(indexOfElement, 1);
+    const indexOfElement = getRandomInteger(0, copyArr.length - 1);
+    const splicedElement = copyArr.splice(indexOfElement, 1);
     result.push(splicedElement[0]);
   }
   return result;
-}
+};
 
 //Функция возвращает строку с неповторяющимся значением
 let PhotoId = 0;
@@ -72,14 +73,14 @@ const locationLat = {
   min: 35.65000,
   max: 35.70000,
   signPoint: 5,
-}
+};
 
 //географические координаты
 const locationLng = {
   min: 139.70000,
   max: 139.80000,
   signPoint: 5,
-}
+};
 const TITLES = ['Заголовок 1', 'Заголовок 2', 'Заголовок 3', 'Заголовок 4'];
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
 const CHECK_TIMES = ['12:00', '13:00', '14:00'];
@@ -90,8 +91,6 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
-
-
 
 //функция возвращающая один объект
 const createAd = function () {
@@ -121,3 +120,4 @@ const createAd = function () {
 
 //функция возвращающая n объектов
 const MultiCreateAd = Array.from({ length: NUMBER_AD }, createAd);
+MultiCreateAd();
